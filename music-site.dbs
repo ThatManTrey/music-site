@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Music Site" id="LogicalDesign-17e6" database="LogicalDesign" >
+	<schema name="INSTANCE" catalogname="Music Site" >
+		<table name="Artist" prior="Entity" />
+	</schema>
+	<layout name="Default Layout" id="Layout-17b3" show_relation="columns" >
+		<entity schema="Music Site.INSTANCE" name="Artist" color="C1D8EE" x="272" y="208" />
+		<callout x="48" y="48" pointer="Round" >
+			<comment><![CDATA[This is a layout - a diagram with tools.
+- Create new entities by right-clicking the layout. 
+- Double-click entity headers to edit.
+- For a better understanding of the schema, create multiple layouts.
+- Deploy the model into the database by converting it first to the physical design.]]></comment>
+		</callout>
+	</layout>
+</project>
