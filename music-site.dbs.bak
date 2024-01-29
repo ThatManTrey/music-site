@@ -23,9 +23,6 @@
 			<column name="Name" type="VARCHAR" length="100" jt="12" />
 			<column name="Number" type="INT" jt="4" />
 		</table>
-		<table name="Tag" prior="Entity" >
-			<column name="Name" type="VARCHAR" length="100" jt="12" />
-		</table>
 	</schema>
 	<layout name="Default Layout" id="Layout-17b3" show_relation="columns" >
 		<entity schema="Music Site.INSTANCE" name="Artist" color="C1D8EE" x="272" y="208" />
@@ -34,7 +31,6 @@
 		<entity schema="Music Site.INSTANCE" name="Release" color="C1D8EE" x="592" y="208" />
 		<entity schema="Music Site.INSTANCE" name="Role" color="C1D8EE" x="336" y="384" />
 		<entity schema="Music Site.INSTANCE" name="Song" color="C1D8EE" x="608" y="480" />
-		<entity schema="Music Site.INSTANCE" name="Tag" color="C1D8EE" x="928" y="208" />
 		<callout x="48" y="48" pointer="Round" >
 			<comment><![CDATA[This is a layout - a diagram with tools.
 - Create new entities by right-clicking the layout. 
