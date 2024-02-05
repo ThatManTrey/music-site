@@ -3,38 +3,151 @@
 	<schema name="INSTANCE" catalogname="Music Site" >
 		<table name="Artist" prior="Entity" >
 			<column name="Name" type="VARCHAR" length="100" jt="12" />
+			<column name="Description" type="TEXT" jt="-1" />
+			<column name="Links" type="TEXT" jt="-1" />
+			<index name="pk_Name" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk_Name_001" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk_Name_002" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
 		</table>
 		<table name="Contributor" prior="Name" >
+			<comment><![CDATA[individual person. can be shared across albums, artists, tracks]]></comment>
 			<column name="Name" type="VARCHAR" length="100" jt="12" />
+			<column name="id" type="INT" jt="4" mandatory="y" />
+			<column name="Description" prior="About" type="TEXT" jt="-1" />
+			<column name="Links" type="TEXT" jt="-1" />
+			<index name="pk_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_Name" unique="UNIQUE_INDEX" >
+				<column name="Name" />
+			</index>
 		</table>
 		<table name="Disc" prior="Entity" >
 			<column name="Number" type="INT" jt="4" />
+			<column name="Artwork" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[link to art file]]></comment>
+			</column>
+			<column name="Release Name" prior="Album Name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk" unique="PRIMARY_KEY" >
+				<column name="Release Name" />
+			</index>
+			<index name="unq_Number" unique="UNIQUE_INDEX" >
+				<column name="Number" />
+			</index>
+			<fk name="fk_disc_release" to_schema="Music Site.INSTANCE" to_table="Release" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="Release Name" pk="Name" />
+			</fk>
+		</table>
+		<table name="Feature" prior="Entity" >
+			<column name="Song Name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="Contributor Name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk" unique="PRIMARY_KEY" >
+				<column name="Song Name" />
+				<column name="Contributor Name" />
+			</index>
+			<fk name="fk_feature_song" to_schema="Music Site.INSTANCE" to_table="Song" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="Song Name" pk="Name" />
+			</fk>
+			<fk name="fk_feature_contributor" to_schema="Music Site.INSTANCE" to_table="Contributor" type="Identifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="Contributor Name" pk="Name" />
+			</fk>
+		</table>
+		<table name="Genre Tag" prior="Tag" >
+			<column name="Name" type="VARCHAR" length="100" jt="12" />
+		</table>
+		<table name="Member" prior="Entity" >
+			<comment><![CDATA[member of collective. relational table between contributor and artist]]></comment>
+			<column name="Artist Name" prior="Artist" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="Member Name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="id" type="INT" jt="4" mandatory="y" />
+			<fk name="fk_member_artist" to_schema="Music Site.INSTANCE" to_table="Artist" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="Artist Name" pk="Name" />
+			</fk>
+			<fk name="fk_member_contributor" to_schema="Music Site.INSTANCE" to_table="Contributor" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" />
 		</table>
 		<table name="Release" prior="Entity" >
 			<column name="Name" type="VARCHAR" length="100" jt="12" />
 			<column name="Date" type="DATE" jt="91" />
 			<column name="Download Link" type="TEXT" jt="-1" />
+			<column name="Artwork" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[link to art file(?)]]></comment>
+			</column>
+			<column name="Description" type="TEXT" jt="-1" />
+			<column name="Links" type="TEXT" jt="-1" />
+			<index name="pk_Name" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk_Name_001" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk_Name_002" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk_Name_003" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk_Name_004" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk_Name_005" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
 		</table>
 		<table name="Role" prior="Entity" >
+			<column name="Contributor Name" prior="Name" type="VARCHAR" length="100" jt="12" mandatory="y" />
 			<column name="Name" type="VARCHAR" length="100" jt="12" />
-			<column name="Type" type="VARCHAR" length="100" jt="12" />
+			<column name="Release Name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk" unique="PRIMARY_KEY" >
+				<column name="Release Name" />
+			</index>
+			<fk name="fk_role_contributor" to_schema="Music Site.INSTANCE" to_table="Contributor" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="Contributor Name" pk="Name" />
+			</fk>
+			<fk name="fk_role_release" to_schema="Music Site.INSTANCE" to_table="Release" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="Release Name" pk="Name" />
+			</fk>
 		</table>
 		<table name="Song" prior="Entity" >
 			<column name="Name" type="VARCHAR" length="100" jt="12" />
 			<column name="Number" type="INT" jt="4" />
-		</table>
-		<table name="Tag" prior="Entity" >
-			<column name="Name" type="VARCHAR" length="100" jt="12" />
+			<column name="Artwork" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[link to art file]]></comment>
+			</column>
+			<column name="Disc Number" type="INT" jt="4" mandatory="y" />
+			<column name="Links" type="TEXT" jt="-1" />
+			<index name="pk_Name" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk_Name_001" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk_Name_002" unique="UNIQUE_KEY" >
+				<column name="Name" />
+			</index>
+			<index name="pk" unique="PRIMARY_KEY" >
+				<column name="Disc Number" />
+			</index>
+			<fk name="fk_song_disc" to_schema="Music Site.INSTANCE" to_table="Disc" type="Identifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="Disc Number" pk="Number" />
+			</fk>
 		</table>
 	</schema>
 	<layout name="Default Layout" id="Layout-17b3" show_relation="columns" >
 		<entity schema="Music Site.INSTANCE" name="Artist" color="C1D8EE" x="272" y="208" />
-		<entity schema="Music Site.INSTANCE" name="Contributor" color="C1D8EE" x="192" y="384" />
-		<entity schema="Music Site.INSTANCE" name="Disc" color="C1D8EE" x="608" y="352" />
-		<entity schema="Music Site.INSTANCE" name="Release" color="C1D8EE" x="592" y="208" />
-		<entity schema="Music Site.INSTANCE" name="Role" color="C1D8EE" x="336" y="384" />
-		<entity schema="Music Site.INSTANCE" name="Song" color="C1D8EE" x="608" y="480" />
-		<entity schema="Music Site.INSTANCE" name="Tag" color="C1D8EE" x="928" y="208" />
+		<entity schema="Music Site.INSTANCE" name="Contributor" color="C1D8EE" x="416" y="624" />
+		<entity schema="Music Site.INSTANCE" name="Disc" color="C1D8EE" x="912" y="416" />
+		<entity schema="Music Site.INSTANCE" name="Feature" color="C1D8EE" x="640" y="656" />
+		<entity schema="Music Site.INSTANCE" name="Genre Tag" color="C1D8EE" x="1200" y="208" />
+		<entity schema="Music Site.INSTANCE" name="Member" color="C1D8EE" x="272" y="416" />
+		<entity schema="Music Site.INSTANCE" name="Release" color="C1D8EE" x="880" y="208" />
+		<entity schema="Music Site.INSTANCE" name="Role" color="C1D8EE" x="496" y="416" />
+		<entity schema="Music Site.INSTANCE" name="Song" color="C1D8EE" x="928" y="656" />
 		<callout x="48" y="48" pointer="Round" >
 			<comment><![CDATA[This is a layout - a diagram with tools.
 - Create new entities by right-clicking the layout. 
